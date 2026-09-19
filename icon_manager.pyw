@@ -10,6 +10,7 @@ from PIL import Image, ImageTk
 
 from cursor_core import APP_DIR, DOWNLOADED_ICONS_DIR, NAMES
 from icon_catalog import fetch_catalog, install_icon, load_selections, update_installed
+from icon_publisher_ui import PublisherDialog
 
 BG = "#17151d"
 PANEL = "#24212d"
@@ -60,8 +61,11 @@ class IconManager:
                          relief="flat", bd=0, padx=14, pady=8)
 
     def _build(self):
-        tk.Label(self.root, text="Chibi Simge Güncelleyici", bg=BG, fg=INK,
-                 font=("Segoe UI", 20, "bold")).pack(anchor="w", padx=24, pady=(18, 2))
+        header = tk.Frame(self.root, bg=BG)
+        header.pack(fill="x", padx=24, pady=(18, 2))
+        tk.Label(header, text="Chibi Simge Güncelleyici", bg=BG, fg=INK,
+                 font=("Segoe UI", 20, "bold")).pack(side="left")
+        self._button(header, "GitHub'a simge yükle", self.open_publisher).pack(side="right")
         tk.Label(self.root, text="GitHub'a eklenen resimleri indir ve istediğin Windows imlecine ata.",
                  bg=BG, fg=MUTED, font=("Segoe UI", 10)).pack(anchor="w", padx=24)
 
@@ -221,6 +225,9 @@ class IconManager:
             self.status.set("Önce kataloğu kontrol et.")
             return
         self._run("refresh", lambda: update_installed(self.icons))
+
+    def open_publisher(self):
+        PublisherDialog(self.root)
 
 
 if __name__ == "__main__":

@@ -16,7 +16,11 @@ GitHub deposu: https://github.com/novax1213/chibi-crosshair-studio
 
 ## GitHub'a simge ekleme
 
-Depoda `assets/`, `icons.json` ve `build_icon_catalog.py` bulunmalı. Yeni bir PNG'yi `assets/` klasörüne ekleyin. Dosya adında Latin harfleri, rakam, `_` ve `-` kullanın. Aynı adlı PNG değiştirilirse güncelleyici SHA-256 değeriyle değişikliği algılar.
+`Chibi Simge Güncelleyici.exe` içinde **GitHub'a simge yükle** düğmesine basın. **Klasör seç** ile PNG resimlerinin bulunduğu klasörü gösterin. Ekranda 17 Windows imlecinin adı (`Normal.png`, `Help.png`, `Busy.png` vb.), her dosyanın durumu ve seçili resmin önizlemesi görünür. Dosya adları bu adlarla eşleşmelidir. Yalnızca değişen resimleri göndermek için **Değişenleri GitHub'a gönder** düğmesine basın. Uygulama resimleri `assets/` klasörüne kopyalar, `icons.json` kataloğunu yeniler ve GitHub'a gönderir. Aynı adlı PNG değiştirilirse indirici SHA-256 değeriyle değişikliği algılar.
+
+Yükleme için bu GitHub deposunun yerel Git proje klasörü ve depoya yazma yetkisi gerekir. Program projeyi otomatik bulamazsa **Proje seç** ile yerel `chibi-crosshair-studio` klasörünü gösterin. Proje `main` dalında olmalıdır. GitHub kimlik doğrulaması bilgisayarda Git için önceden kurulmuş olmalıdır. Dosyaları indiren kullanıcıların Git projesine veya yazma yetkisine ihtiyacı yoktur.
+
+Klasör seçme ekranı 17 sistem imlecinin adlarını kullanır. Katalogda ek alternatif pozlar yayınlamak isterseniz aşağıdaki elle yöntem kullanılabilir. Depoda `assets/`, `icons.json` ve `build_icon_catalog.py` bulunmalı. Dosya adında Latin harfleri, rakam, `_` ve `-` kullanın.
 
 Katalogu yerel bilgisayarda üretmek için:
 

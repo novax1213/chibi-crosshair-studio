@@ -9,8 +9,12 @@ FARE İMLEÇLERİ
 - "Resim boyutu (%)" çizimi küçültür; imlecin piksel boyutunu değiştirmez.
 - "Seçili imleci uygula" yalnızca listedeki imleci günceller.
 - "Windows açılınca imleçleri uygula" seçiliyse kayıtlı imleçler oturum açınca yeniden uygulanır.
-- "Yeni simgeleri indir" ile ayrı güncelleyiciyi açın. GitHub depo adresini girip
-  eklenen yeni PNG'leri indirerek seçtiğiniz Windows imlecine uygulayın.
+- "Yeni simgeleri indir" ile ayrı güncelleyiciyi açın. GitHub'daki yeni PNG'leri
+  indirerek seçtiğiniz Windows imlecine uygulayın.
+- Kendi PNG'lerinizi yayınlamak için güncelleyicide "GitHub'a simge yükle"ye basın.
+  "Klasör seç" ile resimleri gösterin. 17 imleç adı ve dosya durumu listelenir.
+  "Değişenleri GitHub'a gönder" düğmesi değişenleri yayınlar. Bu işlem için yerel
+  Git proje klasörü ve GitHub'a yazma yetkisi gerekir.
 
 NİŞANGÂH
 - Renk, çizgi uzunluğu, boşluk, kalınlık, saydamlık ve konumu ayarlayın.
