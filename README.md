@@ -2,11 +2,13 @@
 
 Windows imleçlerini karakter PNG'leriyle değiştiren ve nişangâh gösteren uygulama. `Chibi Simge Güncelleyici.exe`, GitHub'dan yeni PNG'leri indirip mevcut uygulamaya uygular. Yeni simgeler için ana uygulamanın EXE dosyasını tekrar indirmek gerekmez.
 
+GitHub deposu: https://github.com/novax1213/chibi-crosshair-studio
+
 ## Kullanıcı için
 
-1. GitHub Releases bölümündeki `Chibi Crosshair Studio.exe` ve `Chibi Simge Güncelleyici.exe` dosyalarını **aynı klasöre** koyun.
+1. GitHub Releases bölümündeki `Chibi-Crosshair-Studio-Windows.zip` dosyasını indirin; içindeki iki EXE'yi **aynı klasöre** çıkarın.
 2. Ana uygulamada **Yeni simgeleri indir** düğmesine basın. Güncelleyici doğrudan da açılabilir.
-3. Yayıncının açık GitHub depo adresini girin (örnek: `https://github.com/kullanici/depo`). Depo `main` dışında bir dal kullanıyorsa **Dal** alanını değiştirin. Doğrudan HTTPS `icons.json` adresi de girilebilir.
+3. Güncelleyici bu GitHub depo adresiyle hazır gelir. İsterseniz başka bir açık depo veya doğrudan HTTPS `icons.json` adresi de girebilirsiniz.
 4. **Katalogu kontrol et** düğmesi yeni simgeleri listeler. Bir simge ve Windows imleç türü seçip **İndir ve imlece uygula** düğmesine basın.
 5. Daha önce seçilmiş bir resmin GitHub'da yeni sürümü varsa **Yüklü simgeleri güncelle** düğmesi onu indirip tekrar uygular.
 
@@ -38,18 +40,11 @@ Ardından PNG'leri ve güncellenen `icons.json` dosyasını GitHub'a gönderin. 
 
 `role`, güncelleyicide başlangıçta seçilecek Windows imleç türüdür. Kullanıcı bunu değiştirebilir. Windows'un 17 sistem imleç türü vardır; katalogda 500'e kadar alternatif PNG bulunabilir.
 
-## GitHub'da ilk yayın
+## Yayınlama ve güncelleme
 
-Bu klasör yerel bir Git deposudur. GitHub'da **boş, herkese açık** bir depo oluşturun; oluştururken GitHub'ın hazır README veya `.gitignore` dosyalarını eklemeyin. Ardından bu klasörde kendi depo adresinizle şu komutları çalıştırın:
+`assets/`, `icons.json`, kaynak kod ve `.github/workflows/` depoda tutulur. `build/`, `Release/`, yerel hazırlık betikleri ve ZIP dosyası Git deposuna girmez. İlk Windows paketi [GitHub Releases](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository) bölümünde `Chibi-Crosshair-Studio-Windows.zip` olarak yayınlanır.
 
-```powershell
-git remote add origin https://github.com/KULLANICI/DEPO.git
-git push -u origin main
-```
-
-`assets/`, `icons.json`, kaynak kod ve `.github/workflows/icon-catalog.yml` depoya gider. `build/`, `Release/`, yerel hazırlık betikleri ve ZIP dosyası depoya gitmez. Windows paketini kullanıcıların indirebilmesi için [GitHub Releases](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository) bölümünde yeni bir sürüm oluşturup `Chibi-Crosshair-Studio-Windows.zip` dosyasını sürüme ekleyin. Kullanıcılar iki EXE'yi aynı klasöre çıkarmalıdır.
-
-Depo oluşturulduktan sonra güncelleyicinin **GitHub depo veya icons.json adresi** alanına bu deponun adresini bir kez girin. Güncelleyici adresi kullanıcı bilgisayarında saklar. Yeni PNG'ler için sürüm paketini yenilemek gerekmez; `assets/` ve `icons.json` güncel olmalıdır.
+Güncelleyici bu deponun adresini varsayılan olarak kullanır; kullanıcı adresi değiştirirse yeni değeri kendi bilgisayarında saklar. Yeni PNG'ler için sürüm paketini yenilemek gerekmez; `assets/` ve `icons.json` güncel olmalıdır.
 
 Ana uygulama değiştiğinde GitHub **Actions → Build Windows package → Run workflow** ile iki EXE içeren yeni ZIP paketini üretebilirsiniz. Bu iş akışı paketi Actions çıktısı olarak verir; GitHub Releases'a hangi sürümü yayınlayacağınıza siz karar verirsiniz.
 

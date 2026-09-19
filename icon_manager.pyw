@@ -17,6 +17,7 @@ INK = "#fff5f8"
 PINK = "#ff6790"
 MUTED = "#beb4c0"
 CONFIG = APP_DIR / "icon_manager.json"
+DEFAULT_REPOSITORY = "https://github.com/novax1213/chibi-crosshair-studio"
 
 
 class IconManager:
@@ -30,7 +31,7 @@ class IconManager:
         self.icons = []
         self.photo = None
         self.busy = False
-        self.address = tk.StringVar()
+        self.address = tk.StringVar(value=DEFAULT_REPOSITORY)
         self.branch = tk.StringVar(value="main")
         self.role = tk.StringVar(value=NAMES[0])
         self.status = tk.StringVar(value="GitHub depo adresini girip katalogu kontrol et.")
@@ -41,7 +42,7 @@ class IconManager:
     def _load_config(self):
         try:
             data = json.loads(CONFIG.read_text(encoding="utf-8"))
-            self.address.set(data.get("address", ""))
+            self.address.set(data.get("address") or DEFAULT_REPOSITORY)
             self.branch.set(data.get("branch", "main"))
         except (OSError, ValueError, TypeError):
             pass
