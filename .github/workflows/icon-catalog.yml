@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "assets/**"
+      - "packs/**"
       - "build_icon_catalog.py"
   workflow_dispatch:
 

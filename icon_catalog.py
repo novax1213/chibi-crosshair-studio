@@ -76,6 +76,8 @@ def parse_catalog(data, source_url):
         file = item.get("file")
         checksum = item.get("sha256")
         role = item.get("role", "Normal")
+        package = item.get("package", "base")
+        package_name = item.get("package_name", "Temel Paket")
         if not isinstance(icon_id, str) or not ICON_ID.fullmatch(icon_id) or icon_id.lower() in seen:
             raise ValueError("Simge kimliği geçersiz veya tekrarlanmış.")
         if not isinstance(title, str) or not title.strip() or len(title) > 100:
@@ -84,6 +86,10 @@ def parse_catalog(data, source_url):
             raise ValueError(f"{icon_id}: SHA-256 değeri eksik veya geçersiz.")
         if role not in NAMES:
             raise ValueError(f"{icon_id}: Windows imleç türü geçersiz.")
+        if not isinstance(package, str) or not re.fullmatch(r"[a-z0-9-]{1,48}", package):
+            raise ValueError(f"{icon_id}: paket kimliği geçersiz.")
+        if not isinstance(package_name, str) or not package_name.strip() or len(package_name) > 80:
+            raise ValueError(f"{icon_id}: paket adı geçersiz.")
         if not isinstance(file, str) or "\\" in file or "?" in file or "#" in file:
             raise ValueError(f"{icon_id}: dosya yolu geçersiz.")
         path = PurePosixPath(file)
@@ -94,7 +100,8 @@ def parse_catalog(data, source_url):
         if urlparse(icon_url).scheme != "https" or urlparse(icon_url).hostname != urlparse(source_url).hostname:
             raise ValueError(f"{icon_id}: dosya katalog alanının dışında.")
         icons.append({"id": icon_id, "name": title.strip(), "file": file,
-                      "sha256": checksum.lower(), "role": role, "url": icon_url})
+                      "sha256": checksum.lower(), "role": role, "url": icon_url,
+                      "package": package, "package_name": package_name.strip()})
         seen.add(icon_id.lower())
     return icons
 
@@ -163,6 +170,35 @@ def install_icon(icon, role):
         else:
             selected[role] = previous
         _atomic_write(ICON_SELECTIONS_PATH, json.dumps(selected, ensure_ascii=False, indent=2).encode("utf-8"))
+        raise
+    return downloaded
+
+
+def install_package(icons):
+    """Download all icons in one package, then apply their Windows cursor roles."""
+    if not icons:
+        raise ValueError("Pakette imleç bulunamadı.")
+    package_ids = {icon["package"] for icon in icons}
+    roles = [icon["role"] for icon in icons]
+    if len(package_ids) != 1 or len(roles) != len(set(roles)):
+        raise ValueError("Paket içeriği geçersiz.")
+    downloaded = sum(download_icon(icon)[1] for icon in icons)
+    selected = load_selections()
+    previous = dict(selected)
+    for icon in icons:
+        selected[icon["role"]] = icon["id"]
+    _atomic_write(ICON_SELECTIONS_PATH, json.dumps(selected, ensure_ascii=False, indent=2).encode("utf-8"))
+    settings = load_settings()["cursor_settings"]
+    try:
+        for role in roles:
+            apply_cursor(role, settings[role])
+    except Exception:
+        _atomic_write(ICON_SELECTIONS_PATH, json.dumps(previous, ensure_ascii=False, indent=2).encode("utf-8"))
+        for role in roles:
+            try:
+                apply_cursor(role, settings[role])
+            except Exception:
+                pass
         raise
     return downloaded
 

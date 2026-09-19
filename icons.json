@@ -6,119 +6,153 @@
       "name": "Alternate",
       "file": "assets/Alternate.png",
       "sha256": "a264918520d5ff81b490e378420a1a8e6ede368ff9d4ea3577c4c864864b0465",
-      "role": "Alternate"
+      "role": "Alternate",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Busy",
       "name": "Busy",
       "file": "assets/Busy.png",
       "sha256": "f4a3d008187880d5b19f83e14a3a912b4b51b8961c03ef5c77455d4869bce6e8",
-      "role": "Busy"
+      "role": "Busy",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Diagonal",
       "name": "Diagonal",
       "file": "assets/Diagonal.png",
       "sha256": "2d0488d7a8b84f011a913de59f065e5058e0d6af270453ed829def4725ef5c09",
-      "role": "Diagonal"
+      "role": "Diagonal",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Diagonal2",
       "name": "Diagonal2",
       "file": "assets/Diagonal2.png",
       "sha256": "ae4785da881bc8e0401f61cbdffaa80a6d274e86703b78b2a8b348ca69033001",
-      "role": "Diagonal2"
+      "role": "Diagonal2",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Handwriting",
       "name": "Handwriting",
       "file": "assets/Handwriting.png",
       "sha256": "32ed9b704657cf1f815111fbc6eddd50cd1acb75ef66484326f84b4585423de9",
-      "role": "Handwriting"
+      "role": "Handwriting",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Help",
       "name": "Help",
       "file": "assets/Help.png",
       "sha256": "c8ba0a6d6b47a9d436ae8f4f6dfe33a6b370ce32cb37a21c9d0711f9322e68f9",
-      "role": "Help"
+      "role": "Help",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Horizontal",
       "name": "Horizontal",
       "file": "assets/Horizontal.png",
       "sha256": "56f672b1d3abe65754c8f18908f7377de0bb0fba5846db6d6367bcbe9efa3f15",
-      "role": "Horizontal"
+      "role": "Horizontal",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Link",
       "name": "Link",
       "file": "assets/Link.png",
       "sha256": "9801d4cd0fd81218e89ab1db843889d7b726e54ac0e8790b1f93ceedfdf56b0a",
-      "role": "Link"
+      "role": "Link",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Location",
       "name": "Location",
       "file": "assets/Location.png",
       "sha256": "54805b44799ffca2e49c9f244302b7de80f69303c3a391119fbc528741c618c6",
-      "role": "Location"
+      "role": "Location",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Move",
       "name": "Move",
       "file": "assets/Move.png",
       "sha256": "8f73c3a2d5c5ce3ac0d2cdfca93cb08c8b2f4039dce08cf92a1050f1ad5426f0",
-      "role": "Move"
+      "role": "Move",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Normal",
       "name": "Normal",
       "file": "assets/Normal.png",
       "sha256": "e968da3bae43919e853f3b1c2feee644784c519369b7a708010cf6ca67dc4716",
-      "role": "Normal"
+      "role": "Normal",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Person",
       "name": "Person",
       "file": "assets/Person.png",
       "sha256": "8a3f3a3edfe839235dd3525700c87423ef606c4d74852721ecf4134c095ca8cf",
-      "role": "Person"
+      "role": "Person",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Precision",
       "name": "Precision",
       "file": "assets/Precision.png",
       "sha256": "400b74abfee9d513784acd4620a3ffeabba85872f2d389fc2cac14cbb8de8e11",
-      "role": "Precision"
+      "role": "Precision",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Text",
       "name": "Text",
       "file": "assets/Text.png",
       "sha256": "30910e41214ffa420d5319eef8a3767aed8621a73202d5425e79f35f86bd323c",
-      "role": "Text"
+      "role": "Text",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Unavailable",
       "name": "Unavailable",
       "file": "assets/Unavailable.png",
       "sha256": "e2c15c53de8d71162effe442755cd685e39bcbc23bd9d829326dcc1ccbdb670e",
-      "role": "Unavailable"
+      "role": "Unavailable",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Vertical",
       "name": "Vertical",
       "file": "assets/Vertical.png",
       "sha256": "75aa2e3e2919ca8b593d88aa9502c8ab15cb785436554ebb8e32e8f3258df189",
-      "role": "Vertical"
+      "role": "Vertical",
+      "package": "base",
+      "package_name": "Temel Paket"
     },
     {
       "id": "Working",
       "name": "Working",
       "file": "assets/Working.png",
       "sha256": "bdbfb692ecffb0442840d22d6bc4a98f2601e7d4f139248817488c1ae19ef978",
-      "role": "Working"
+      "role": "Working",
+      "package": "base",
+      "package_name": "Temel Paket"
     }
   ]
 }

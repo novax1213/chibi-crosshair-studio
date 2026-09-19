@@ -8,19 +8,19 @@ GitHub deposu: https://github.com/novax1213/chibi-crosshair-studio
 
 1. GitHub Releases bölümündeki `Chibi-Crosshair-Studio-Windows.zip` dosyasını indirin; içindeki iki EXE'yi **aynı klasöre** çıkarın.
 2. Ana uygulamada **Yeni simgeleri indir** düğmesine basın. Güncelleyici doğrudan da açılabilir.
-3. Güncelleyici bu GitHub depo adresiyle hazır gelir. İsterseniz başka bir açık depo veya doğrudan HTTPS `icons.json` adresi de girebilirsiniz.
-4. **Katalogu kontrol et** düğmesi yeni simgeleri listeler. Bir simge ve Windows imleç türü seçip **İndir ve imlece uygula** düğmesine basın.
+3. Güncelleyici açılınca paketleri otomatik yükler. **Paketler** listesinden bir paket seçip **Paketi indir ve uygula** düğmesine basın. Böylece paketteki tüm imleçler indirilip uygulanır.
+4. Tek bir poz kullanmak isterseniz paketteki simgeyi ve Windows imleç türünü seçip **İndir ve imlece uygula** düğmesine basın. İsterseniz başka bir açık depo veya doğrudan HTTPS `icons.json` adresi de girebilirsiniz.
 5. Daha önce seçilmiş bir resmin GitHub'da yeni sürümü varsa **Yüklü simgeleri güncelle** düğmesi onu indirip tekrar uygular.
 
 İndirilen PNG'ler `%LOCALAPPDATA%\ChibiCrosshairStudio\icons` klasöründe tutulur. İnternet bağlantısı kesilse bile seçilen simgeler çalışır. Ana uygulama açıldığında bu dosyaları kullanır; dosya yoksa kendi içindeki resme döner.
 
 ## GitHub'a simge ekleme
 
-`Chibi Simge Güncelleyici.exe` içinde **GitHub'a simge yükle** düğmesine basın. **Klasör seç** ile PNG resimlerinin bulunduğu klasörü gösterin. Ekranda 17 Windows imlecinin adı (`Normal.png`, `Help.png`, `Busy.png` vb.), her dosyanın durumu ve seçili resmin önizlemesi görünür. Dosya adları bu adlarla eşleşmelidir. Yalnızca değişen resimleri göndermek için **Değişenleri GitHub'a gönder** düğmesine basın. Uygulama resimleri `assets/` klasörüne kopyalar, `icons.json` kataloğunu yeniler ve GitHub'a gönderir. Aynı adlı PNG değiştirilirse indirici SHA-256 değeriyle değişikliği algılar.
+`Chibi Simge Güncelleyici.exe` içinde **GitHub'a simge yükle** düğmesine basın. PNG resimlerinin olduğu klasörü sürükleyip bırakın veya **Klasör seç** ile gösterin. Ekranda 17 Windows imlecinin adı (`Normal.png`, `Help.png`, `Busy.png` vb.), bulunan dosyalar ve önizleme görünür. Paket adını kontrol edip **Paketi GitHub'a yükle** düğmesine basın. Uygulama yalnızca değişen resimleri `packs/<paket-adı>/` klasörüne gönderir ve `icons.json` kataloğunu yeniler. Kullanıcılar yeni paketi Güncelleyici içindeki **Paketler** listesinden indirir.
 
-Yükleme için bu GitHub deposunun yerel Git proje klasörü ve depoya yazma yetkisi gerekir. Program projeyi otomatik bulamazsa **Proje seç** ile yerel `chibi-crosshair-studio` klasörünü gösterin. Proje `main` dalında olmalıdır. GitHub kimlik doğrulaması bilgisayarda Git için önceden kurulmuş olmalıdır. Dosyaları indiren kullanıcıların Git projesine veya yazma yetkisine ihtiyacı yoktur.
+Yükleme için Git for Windows ve bu depoya yazma yetkisi gerekir. GitHub kimlik doğrulaması bilgisayarda Git için kurulmuş olmalıdır. Program güncel depoyu geçici klasöre otomatik indirir; proje klasörü seçmeniz gerekmez. Dosyaları indiren kullanıcıların Git kurmasına veya yazma yetkisi almasına gerek yoktur.
 
-Klasör seçme ekranı 17 sistem imlecinin adlarını kullanır. Katalogda ek alternatif pozlar yayınlamak isterseniz aşağıdaki elle yöntem kullanılabilir. Depoda `assets/`, `icons.json` ve `build_icon_catalog.py` bulunmalı. Dosya adında Latin harfleri, rakam, `_` ve `-` kullanın.
+Klasör seçme ekranı 17 sistem imlecinin adlarını kullanır. Katalogda serbest adlı ek alternatif pozlar yayınlamak isterseniz aşağıdaki elle yöntem kullanılabilir. Depoda `assets/`, `icons.json` ve `build_icon_catalog.py` bulunmalı. Dosya adında Latin harfleri, rakam, `_` ve `-` kullanın.
 
 Katalogu yerel bilgisayarda üretmek için:
 
@@ -67,7 +67,7 @@ Python, Pillow ve PyInstaller ile iki EXE oluşturulur:
 ```powershell
 python -m pip install -r requirements-build.txt
 python -m PyInstaller --noconfirm --onefile --windowed --name "Chibi Crosshair Studio" --add-data "assets;assets" --icon app.ico --distpath Release --workpath build app.pyw
-python -m PyInstaller --noconfirm --onefile --windowed --name "Chibi Simge Güncelleyici" --icon app.ico --distpath Release --workpath build icon_manager.pyw
+python -m PyInstaller --noconfirm --onefile --windowed --name "Chibi Simge Güncelleyici" --icon app.ico --additional-hooks-dir . --distpath Release --workpath build icon_manager.pyw
 ```
 
 Uygulama Windows'a özeldir. Nişangâh masaüstü katmanı olarak çizilir; bazı tam ekran oyunlar bu katmanı göstermez.

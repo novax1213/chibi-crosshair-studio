@@ -7,9 +7,10 @@ from queue import Empty, Queue
 from tkinter import ttk
 
 from PIL import Image, ImageTk
+from tkinterdnd2 import TkinterDnD
 
 from cursor_core import APP_DIR, DOWNLOADED_ICONS_DIR, NAMES
-from icon_catalog import fetch_catalog, install_icon, load_selections, update_installed
+from icon_catalog import fetch_catalog, install_icon, install_package, load_selections, update_installed
 from icon_publisher_ui import PublisherDialog
 
 BG = "#17151d"
@@ -23,22 +24,26 @@ DEFAULT_REPOSITORY = "https://github.com/novax1213/chibi-crosshair-studio"
 
 class IconManager:
     def __init__(self):
-        self.root = tk.Tk()
+        self.root = TkinterDnD.Tk()
         self.root.title("Chibi Simge Güncelleyici")
         self.root.geometry("820x680")
         self.root.minsize(720, 620)
         self.root.configure(bg=BG)
         self.events = Queue()
         self.icons = []
+        self.visible_icons = []
+        self.packages = {}
         self.photo = None
         self.busy = False
         self.address = tk.StringVar(value=DEFAULT_REPOSITORY)
         self.branch = tk.StringVar(value="main")
         self.role = tk.StringVar(value=NAMES[0])
-        self.status = tk.StringVar(value="GitHub depo adresini girip katalogu kontrol et.")
+        self.package_name = tk.StringVar()
+        self.status = tk.StringVar(value="Paketler yükleniyor...")
         self._load_config()
         self._build()
         self.root.after(100, self._poll)
+        self.root.after(250, self.check)
 
     def _load_config(self):
         try:
@@ -66,7 +71,7 @@ class IconManager:
         tk.Label(header, text="Chibi Simge Güncelleyici", bg=BG, fg=INK,
                  font=("Segoe UI", 20, "bold")).pack(side="left")
         self._button(header, "GitHub'a simge yükle", self.open_publisher).pack(side="right")
-        tk.Label(self.root, text="GitHub'a eklenen resimleri indir ve istediğin Windows imlecine ata.",
+        tk.Label(self.root, text="Paket seçip bütün imleçleri indir veya tek bir simgeyi uygula.",
                  bg=BG, fg=MUTED, font=("Segoe UI", 10)).pack(anchor="w", padx=24)
 
         source = tk.Frame(self.root, bg=PANEL)
@@ -86,8 +91,15 @@ class IconManager:
         body.pack(fill="both", expand=True, padx=24)
         left = tk.Frame(body, bg=PANEL)
         left.pack(side="left", fill="both", expand=True, padx=(0, 12))
-        tk.Label(left, text="Katalogdaki simgeler", bg=PANEL, fg=INK,
+        tk.Label(left, text="Paketler", bg=PANEL, fg=INK,
                  font=("Segoe UI", 13, "bold")).pack(anchor="w", padx=14, pady=(12, 8))
+        self.package_picker = ttk.Combobox(left, textvariable=self.package_name, state="readonly")
+        self.package_picker.pack(fill="x", padx=14, pady=(0, 8))
+        self.package_picker.bind("<<ComboboxSelected>>", self._show_package)
+        self.package_button = self._button(left, "Paketi indir ve uygula", self.install_selected_package, True)
+        self.package_button.pack(fill="x", padx=14, pady=(0, 12))
+        tk.Label(left, text="Paketteki simgeler", bg=PANEL, fg=INK,
+                 font=("Segoe UI", 12, "bold")).pack(anchor="w", padx=14, pady=(0, 8))
         list_frame = tk.Frame(left, bg=PANEL)
         list_frame.pack(fill="both", expand=True, padx=14, pady=(0, 12))
         self.listbox = tk.Listbox(list_frame, bg="#302b37", fg=INK, selectbackground=PINK,
@@ -130,7 +142,7 @@ class IconManager:
             return
         self.busy = True
         self.status.set("İşleniyor...")
-        for control in (self.check_button, self.install_button, self.refresh_button):
+        for control in (self.check_button, self.install_button, self.refresh_button, self.package_button):
             control.configure(state="disabled")
 
         def task():
@@ -146,21 +158,20 @@ class IconManager:
             while True:
                 operation, success, result = self.events.get_nowait()
                 self.busy = False
-                for control in (self.check_button, self.install_button, self.refresh_button):
+                for control in (self.check_button, self.install_button, self.refresh_button, self.package_button):
                     control.configure(state="normal")
                 if not success:
                     self.status.set(f"Hata: {result}")
                 elif operation == "check":
                     self.icons, _ = result
-                    self.listbox.delete(0, "end")
-                    selected = load_selections()
+                    self.packages = {}
                     for icon in self.icons:
-                        installed = " ✓" if icon["id"] in selected.values() else ""
-                        self.listbox.insert("end", f"{icon['name']}  [{icon['role']}]{installed}")
-                    if self.icons:
-                        self.listbox.selection_set(0)
-                        self._select()
-                    self.status.set(f"{len(self.icons)} simge bulundu. Yeni resimler burada otomatik görünür.")
+                        self.packages.setdefault(icon["package_name"], []).append(icon)
+                    names = list(self.packages)
+                    self.package_picker.configure(values=names)
+                    self.package_name.set(names[0] if names else "")
+                    self._show_package()
+                    self.status.set(f"{len(names)} paket, {len(self.icons)} simge bulundu.")
                 elif operation == "install":
                     self.status.set("Simge indirildi ve Windows imlecine uygulandı." if result else
                                     "Simge zaten günceldi; Windows imlecine uygulandı.")
@@ -169,10 +180,13 @@ class IconManager:
                     self.role.set(current_role)
                     index = self.listbox.curselection()
                     if index:
-                        icon = self.icons[index[0]]
+                        icon = self.visible_icons[index[0]]
                         self.listbox.delete(index[0])
                         self.listbox.insert(index[0], f"{icon['name']}  [{icon['role']}] ✓")
                         self.listbox.selection_set(index[0])
+                elif operation == "package":
+                    self._show_package()
+                    self.status.set(f"Paket indirildi ve {len(self.visible_icons)} imlece uygulandı.")
                 elif operation == "refresh":
                     self.status.set(f"{len(result)} yüklü imleç güncellendi." if result else
                                     "Yüklü simgelerin hepsi güncel.")
@@ -182,7 +196,25 @@ class IconManager:
 
     def _current(self):
         selection = self.listbox.curselection()
-        return self.icons[selection[0]] if selection else None
+        return self.visible_icons[selection[0]] if selection else None
+
+    def _show_package(self, _event=None):
+        self.visible_icons = self.packages.get(self.package_name.get(), [])
+        selected = load_selections()
+        self.listbox.delete(0, "end")
+        for icon in self.visible_icons:
+            installed = " ✓" if icon["id"] in selected.values() else ""
+            self.listbox.insert("end", f"{icon['name']}  [{icon['role']}]{installed}")
+        if self.visible_icons:
+            self.listbox.selection_set(0)
+            self._select()
+
+    def install_selected_package(self):
+        icons = list(self.visible_icons)
+        if not icons:
+            self.status.set("Önce bir paket seç.")
+            return
+        self._run("package", lambda: install_package(icons))
 
     def _select(self, _event=None, reset_role=True):
         icon = self._current()

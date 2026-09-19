@@ -11,10 +11,12 @@ FARE İMLEÇLERİ
 - "Windows açılınca imleçleri uygula" seçiliyse kayıtlı imleçler oturum açınca yeniden uygulanır.
 - "Yeni simgeleri indir" ile ayrı güncelleyiciyi açın. GitHub'daki yeni PNG'leri
   indirerek seçtiğiniz Windows imlecine uygulayın.
-- Kendi PNG'lerinizi yayınlamak için güncelleyicide "GitHub'a simge yükle"ye basın.
-  "Klasör seç" ile resimleri gösterin. 17 imleç adı ve dosya durumu listelenir.
-  "Değişenleri GitHub'a gönder" düğmesi değişenleri yayınlar. Bu işlem için yerel
-  Git proje klasörü ve GitHub'a yazma yetkisi gerekir.
+- Güncelleyici açıldığında paketler otomatik yüklenir. Paket seçip
+  "Paketi indir ve uygula"ya basın.
+- Kendi PNG'lerinizi yayınlamak için "GitHub'a simge yükle"ye basın. Resim
+  klasörünü sürükleyip bırakın veya "Klasör seç" ile gösterin. Paket adını
+  yazıp "Paketi GitHub'a yükle"ye basın. Bunun için Git for Windows ve
+  GitHub deposuna yazma yetkisi gerekir.
 
 NİŞANGÂH
 - Renk, çizgi uzunluğu, boşluk, kalınlık, saydamlık ve konumu ayarlayın.
