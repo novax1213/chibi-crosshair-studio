@@ -24,7 +24,15 @@ Katalogu yerel bilgisayarda üretmek için:
 python build_icon_catalog.py
 ```
 
-Ardından PNG'leri ve güncellenen `icons.json` dosyasını GitHub'a gönderin. Depodaki `.github/workflows/icon-catalog.yml` iş akışı da `assets/` değişikliklerinden sonra katalogu üretip commit etmeyi dener. Bunun için GitHub Actions'ın depoya yazma izni olmalı; iş akışı çalışmazsa yukarıdaki komutu kullanıp `icons.json` dosyasını elle gönderin.
+Ardından PNG'leri ve güncellenen `icons.json` dosyasını GitHub'a gönderin:
+
+```powershell
+git add assets icons.json
+git commit -m "Yeni simgeleri ekle"
+git push
+```
+
+Depodaki `.github/workflows/icon-catalog.yml` iş akışı da `assets/` değişikliklerinden sonra katalogu üretip commit etmeyi dener. GitHub Actions hesabınızda kullanılamıyorsa veya depoya yazma izni yoksa yukarıdaki yerel komutlar yeterlidir. Kullanıcılar yeni simgeleri yine güncelleyiciyle indirir.
 
 `icons.json` içindeki her kayıt şu alanları içerir:
 
