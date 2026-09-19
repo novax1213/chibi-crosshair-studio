@@ -1,0 +1,11 @@
+__pycache__/
+build/
+Release/
+Chibi-Crosshair-Studio-Windows.zip
+*.spec
+*.pyc
+.venv/
+# Local image preparation scripts refer to files outside this repository.
+prepare_assets.py
+prepare_extra_assets.py
+export_sticker_previews.py

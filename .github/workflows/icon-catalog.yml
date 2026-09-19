@@ -1,0 +1,31 @@
+name: Update icon catalog
+
+on:
+  push:
+    paths:
+      - "assets/**"
+      - "build_icon_catalog.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Generate icons.json
+        run: python build_icon_catalog.py
+      - name: Commit updated catalog
+        run: |
+          if ! git diff --quiet -- icons.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add icons.json
+            git commit -m "Update icon catalog"
+            git push
+          fi
