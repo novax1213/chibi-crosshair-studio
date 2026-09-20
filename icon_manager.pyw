@@ -10,7 +10,8 @@ from PIL import Image, ImageTk
 from tkinterdnd2 import TkinterDnD
 
 from cursor_core import APP_DIR, DOWNLOADED_ICONS_DIR, NAMES
-from icon_catalog import fetch_catalog, install_icon, install_package, load_selections, update_installed
+from icon_catalog import (download_icon, fetch_catalog, install_icon, install_package,
+                          load_selections, update_installed)
 from icon_publisher_ui import PublisherDialog
 
 BG = "#17151d"
@@ -34,6 +35,7 @@ class IconManager:
         self.visible_icons = []
         self.packages = {}
         self.photo = None
+        self.preview_token = 0
         self.busy = False
         self.address = tk.StringVar(value=DEFAULT_REPOSITORY)
         self.branch = tk.StringVar(value="main")
@@ -157,6 +159,17 @@ class IconManager:
         try:
             while True:
                 operation, success, result = self.events.get_nowait()
+                if operation == "preview":
+                    token, icon_id, value = result
+                    current = self._current()
+                    if token == self.preview_token and current and current["id"] == icon_id:
+                        if success:
+                            self._draw_preview(value)
+                        elif self.photo is None:
+                            self.preview.delete("all")
+                            self.preview.create_text(90, 90, text="Önizleme yüklenemedi", fill=MUTED)
+                            self.status.set(f"Önizleme yüklenemedi: {value}")
+                    continue
                 self.busy = False
                 for control in (self.check_button, self.install_button, self.refresh_button, self.package_button):
                     control.configure(state="normal")
@@ -217,6 +230,8 @@ class IconManager:
         self._run("package", lambda: install_package(icons))
 
     def _select(self, _event=None, reset_role=True):
+        self.preview_token += 1
+        token = self.preview_token
         icon = self._current()
         self.preview.delete("all")
         self.photo = None
@@ -227,16 +242,31 @@ class IconManager:
             self.role.set(icon["role"])
         path = DOWNLOADED_ICONS_DIR / f"{icon['id']}.png"
         if path.exists():
-            try:
-                with Image.open(path) as source:
-                    image = source.convert("RGBA")
-                image.thumbnail((165, 165), Image.Resampling.LANCZOS)
-                self.photo = ImageTk.PhotoImage(image)
-                self.preview.create_image(90, 90, image=self.photo)
-            except OSError:
-                self.preview.create_text(90, 90, text="Önizleme açılamadı", fill=MUTED)
+            self._draw_preview(path)
         else:
-            self.preview.create_text(90, 90, text="İndirince önizlenir", fill=MUTED)
+            self.preview.create_text(90, 90, text="Önizleme yükleniyor...", fill=MUTED)
+
+        def load_preview():
+            try:
+                saved_path, _ = download_icon(icon)
+                self.events.put(("preview", True, (token, icon["id"], saved_path)))
+            except Exception as error:
+                self.events.put(("preview", False, (token, icon["id"], str(error))))
+
+        threading.Thread(target=load_preview, daemon=True).start()
+
+    def _draw_preview(self, path):
+        try:
+            with Image.open(path) as source:
+                image = source.convert("RGBA")
+            image.thumbnail((165, 165), Image.Resampling.LANCZOS)
+            self.photo = ImageTk.PhotoImage(image)
+            self.preview.delete("all")
+            self.preview.create_image(90, 90, image=self.photo)
+        except OSError:
+            self.photo = None
+            self.preview.delete("all")
+            self.preview.create_text(90, 90, text="Önizleme açılamadı", fill=MUTED)
 
     def check(self):
         address = self.address.get().strip()
