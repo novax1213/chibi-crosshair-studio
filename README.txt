@@ -9,10 +9,14 @@ FARE İMLEÇLERİ
 - "Resim boyutu (%)" çizimi küçültür; imlecin piksel boyutunu değiştirmez.
 - "Seçili imleci uygula" yalnızca listedeki imleci günceller.
 - "Windows açılınca imleçleri uygula" seçiliyse kayıtlı imleçler oturum açınca yeniden uygulanır.
-- "Yeni simgeleri indir" ile ayrı güncelleyiciyi açın. GitHub'daki yeni PNG'leri
-  indirerek seçtiğiniz Windows imlecine uygulayın.
-- Güncelleyici açıldığında paketler otomatik yüklenir. Paket seçip
-  "Paketi indir ve uygula"ya basın.
+- "Yeni simgeleri indir" ile ayrı güncelleyiciyi açabilirsiniz.
+
+PAKETLER
+- Ana uygulamanın üçüncü sekmesindeki paketler GitHub'dan otomatik yüklenir.
+- Paket seçince simge adları ve seçilen simgenin önizlemesi görünür.
+- "Paketi indir ve uygula" ile paketteki imleçleri Windows'a uygulayın.
+- Sonradan eklenen paketleri görmek için "Paketleri yenile"ye basın.
+- Ayrı güncelleyiciyle tek simge uygulayabilir veya yeni paket yayınlayabilirsiniz.
 - Kendi PNG'lerinizi yayınlamak için "GitHub'a simge yükle"ye basın. Resim
   klasörünü sürükleyip bırakın veya "Klasör seç" ile gösterin. Paket adını
   yazıp "Paketi GitHub'a yükle"ye basın. Bunun için Git for Windows ve

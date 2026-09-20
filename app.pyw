@@ -3,10 +3,13 @@
 import sys
 import subprocess
 import tkinter as tk
+import queue
+import threading
 from pathlib import Path
 from tkinter import colorchooser, messagebox
-from PIL import ImageTk
+from PIL import Image, ImageTk
 from cursor_core import NAMES, apply_cursor, apply_cursors, load_settings, make_canvas, save_settings, set_startup
+from icon_catalog import download_icon, fetch_catalog, install_package, load_selections
 from overlay_win32 import CrosshairOverlay
 
 BG = "#17151d"
@@ -14,6 +17,7 @@ PANEL = "#24212d"
 INK = "#fff5f8"
 MUTED = "#beb4c0"
 PINK = "#ff6790"
+CATALOG_ADDRESS = "https://github.com/novax1213/chibi-crosshair-studio"
 
 
 def button(parent, label, command, accent=False):
@@ -53,6 +57,13 @@ class Studio:
         self.offset_x = tk.IntVar(value=self.settings["crosshair_offset_x"])
         self.offset_y = tk.IntVar(value=self.settings["crosshair_offset_y"])
         self.overlay_enabled = tk.BooleanVar(value=self.settings["overlay_enabled"])
+        self.package_events = queue.Queue()
+        self.package_groups = {}
+        self.package_keys = []
+        self.package_preview_photo = None
+        self.package_preview_token = 0
+        self.package_busy = False
+        self.packages_loaded = False
         self.build()
         self.update_cursor_preview()
         self.update_crosshair()
@@ -68,23 +79,193 @@ class Studio:
         nav = tk.Frame(self.root, bg=BG)
         nav.pack(fill="x", padx=24, pady=(10, 10))
         button(nav, "Fare imleçleri", lambda: self.show_tab("cursor")).pack(side="left", padx=(0, 8))
-        button(nav, "Nişangâh", lambda: self.show_tab("crosshair")).pack(side="left")
+        button(nav, "Nişangâh", lambda: self.show_tab("crosshair")).pack(side="left", padx=(0, 8))
+        button(nav, "Paketler", lambda: self.show_tab("packages")).pack(side="left")
 
         self.content = tk.Frame(self.root, bg=BG)
         self.content.pack(fill="both", expand=True, padx=24, pady=(0, 14))
         self.cursor_tab = tk.Frame(self.content, bg=PANEL)
         self.crosshair_tab = tk.Frame(self.content, bg=PANEL)
-        for frame in (self.cursor_tab, self.crosshair_tab):
+        self.packages_tab = tk.Frame(self.content, bg=PANEL)
+        for frame in (self.cursor_tab, self.crosshair_tab, self.packages_tab):
             frame.place(relx=0, rely=0, relwidth=1, relheight=1)
         self.build_cursor_tab()
         self.build_crosshair_tab()
+        self.build_packages_tab()
         self.show_tab("cursor")
 
         self.status = tk.StringVar(value="Hazır")
         tk.Label(self.root, textvariable=self.status, bg=BG, fg=MUTED, anchor="w", font=("Segoe UI", 9)).pack(fill="x", padx=26, pady=(0, 12))
+        self.root.after(100, self.poll_package_events)
 
     def show_tab(self, name):
-        (self.cursor_tab if name == "cursor" else self.crosshair_tab).tkraise()
+        {"cursor": self.cursor_tab, "crosshair": self.crosshair_tab,
+         "packages": self.packages_tab}[name].tkraise()
+        if name == "packages" and not self.packages_loaded and not self.package_busy:
+            self.refresh_packages()
+
+    def build_packages_tab(self):
+        left = tk.Frame(self.packages_tab, bg=PANEL)
+        left.pack(side="left", fill="y", padx=(22, 12), pady=20)
+        tk.Label(left, text="İmleç paketleri", bg=PANEL, fg=INK,
+                 font=("Segoe UI", 14, "bold")).pack(anchor="w")
+        self.package_list = tk.Listbox(left, width=21, height=17, font=("Segoe UI", 10),
+                                       bg="#302b37", fg=INK, selectbackground=PINK,
+                                       selectforeground="#1f141c", relief="flat", bd=0,
+                                       highlightthickness=0, activestyle="none")
+        self.package_list.pack(fill="y", pady=(12, 10))
+        self.package_list.bind("<<ListboxSelect>>", self.choose_package)
+        button(left, "Paketleri yenile", self.refresh_packages).pack(fill="x")
+
+        middle = tk.Frame(self.packages_tab, bg=PANEL)
+        middle.pack(side="left", fill="y", padx=(0, 12), pady=20)
+        tk.Label(middle, text="Paket içeriği", bg=PANEL, fg=INK,
+                 font=("Segoe UI", 14, "bold")).pack(anchor="w")
+        self.package_icon_list = tk.Listbox(middle, width=20, height=17, font=("Segoe UI", 10),
+                                            bg="#302b37", fg=INK, selectbackground=PINK,
+                                            selectforeground="#1f141c", relief="flat", bd=0,
+                                            highlightthickness=0, activestyle="none")
+        self.package_icon_list.pack(fill="y", pady=(12, 0))
+        self.package_icon_list.bind("<<ListboxSelect>>", self.choose_package_icon)
+
+        right = tk.Frame(self.packages_tab, bg=PANEL)
+        right.pack(side="left", fill="both", expand=True, padx=(0, 22), pady=20)
+        tk.Label(right, text="Simge önizlemesi", bg=PANEL, fg=INK,
+                 font=("Segoe UI", 14, "bold")).pack(anchor="w")
+        self.package_preview = tk.Canvas(right, width=200, height=200, bg="#19171e",
+                                         highlightthickness=0)
+        self.package_preview.pack(pady=(12, 10), anchor="w")
+        self.package_preview.create_text(100, 100, text="Paket seçin", fill=MUTED)
+        self.package_title = tk.StringVar(value="Paket seçin")
+        tk.Label(right, textvariable=self.package_title, bg=PANEL, fg=PINK,
+                 font=("Segoe UI", 11, "bold"), wraplength=230).pack(anchor="w")
+        self.package_info = tk.StringVar(value="GitHub'daki paketler burada görünecek.")
+        tk.Label(right, textvariable=self.package_info, bg=PANEL, fg=MUTED,
+                 justify="left", wraplength=230).pack(anchor="w", pady=(6, 12))
+        self.package_install_button = button(right, "Paketi indir ve uygula",
+                                             self.apply_selected_package, accent=True)
+        self.package_install_button.pack(anchor="w")
+        self.package_install_button.configure(state="disabled")
+
+    def refresh_packages(self):
+        if self.package_busy:
+            return
+        self.package_busy = True
+        self.package_info.set("Paketler yükleniyor…")
+        self.package_install_button.configure(state="disabled")
+        def worker():
+            try:
+                icons, _ = fetch_catalog(CATALOG_ADDRESS)
+                self.package_events.put(("catalog", icons))
+            except Exception as error:
+                self.package_events.put(("error", str(error)))
+        threading.Thread(target=worker, daemon=True).start()
+
+    def selected_package_icons(self):
+        selection = self.package_list.curselection()
+        if not selection or selection[0] >= len(self.package_keys):
+            return []
+        return self.package_groups[self.package_keys[selection[0]]]
+
+    def choose_package(self, _event=None):
+        icons = self.selected_package_icons()
+        self.package_preview_token += 1
+        self.package_icon_list.delete(0, "end")
+        self.package_preview.delete("all")
+        self.package_preview_photo = None
+        if not icons:
+            self.package_install_button.configure(state="disabled")
+            return
+        for icon in icons:
+            self.package_icon_list.insert("end", icon["name"])
+        self.package_title.set(icons[0]["package_name"])
+        selections = load_selections()
+        installed = all(selections.get(icon["role"]) == icon["id"] for icon in icons)
+        self.package_info.set(f"{len(icons)} simge · " + ("Yüklü" if installed else "İndirilebilir"))
+        self.package_install_button.configure(state="disabled" if self.package_busy else "normal")
+        self.package_icon_list.selection_set(0)
+        self.choose_package_icon()
+
+    def choose_package_icon(self, _event=None):
+        selection = self.package_icon_list.curselection()
+        icons = self.selected_package_icons()
+        if not selection or selection[0] >= len(icons):
+            return
+        icon = icons[selection[0]]
+        self.package_preview_token += 1
+        token = self.package_preview_token
+        self.package_preview.delete("all")
+        self.package_preview.create_text(100, 100, text="Önizleme yükleniyor…", fill=MUTED)
+        def worker():
+            try:
+                path, _ = download_icon(icon)
+                self.package_events.put(("preview", token, path))
+            except Exception as error:
+                self.package_events.put(("preview_error", token, str(error)))
+        threading.Thread(target=worker, daemon=True).start()
+
+    def apply_selected_package(self):
+        icons = self.selected_package_icons()
+        if not icons or self.package_busy:
+            return
+        self.package_busy = True
+        self.package_install_button.configure(state="disabled")
+        self.package_info.set(f"{icons[0]['package_name']} yükleniyor…")
+        def worker():
+            try:
+                downloaded = install_package(icons)
+                self.package_events.put(("installed", icons[0]["package_name"], downloaded))
+            except Exception as error:
+                self.package_events.put(("error", str(error)))
+        threading.Thread(target=worker, daemon=True).start()
+
+    def poll_package_events(self):
+        try:
+            while True:
+                event = self.package_events.get_nowait()
+                kind = event[0]
+                if kind == "catalog":
+                    groups = {}
+                    for icon in event[1]:
+                        groups.setdefault(icon["package"], []).append(icon)
+                    prior = self.package_list.curselection()
+                    previous_key = self.package_keys[prior[0]] if prior and prior[0] < len(self.package_keys) else None
+                    self.package_groups = groups
+                    self.package_keys = list(groups)
+                    self.package_list.delete(0, "end")
+                    for key in self.package_keys:
+                        self.package_list.insert("end", groups[key][0]["package_name"])
+                    self.packages_loaded = True
+                    self.package_busy = False
+                    if self.package_keys:
+                        index = self.package_keys.index(previous_key) if previous_key in groups else 0
+                        self.package_list.selection_set(index)
+                        self.choose_package()
+                    else:
+                        self.package_info.set("Henüz paket bulunamadı.")
+                elif kind == "preview" and event[1] == self.package_preview_token:
+                    with Image.open(event[2]) as source:
+                        image = source.convert("RGBA")
+                        image.thumbnail((184, 184), Image.Resampling.LANCZOS)
+                    self.package_preview_photo = ImageTk.PhotoImage(image)
+                    self.package_preview.delete("all")
+                    self.package_preview.create_image(100, 100, image=self.package_preview_photo)
+                elif kind == "preview_error" and event[1] == self.package_preview_token:
+                    self.package_preview.delete("all")
+                    self.package_preview.create_text(100, 100, text="Önizleme açılamadı", fill=MUTED)
+                elif kind == "installed":
+                    self.package_busy = False
+                    self.choose_package()
+                    self.update_cursor_preview()
+                    self.status.set(f"{event[1]} uygulandı · {event[2]} yeni simge indirildi")
+                elif kind == "error":
+                    self.package_busy = False
+                    self.package_install_button.configure(state="normal" if self.selected_package_icons() else "disabled")
+                    self.package_info.set("İşlem tamamlanamadı.")
+                    messagebox.showerror("Paket işlemi başarısız", event[1], parent=self.root)
+        except queue.Empty:
+            pass
+        self.root.after(100, self.poll_package_events)
 
     def slider(self, parent, text, variable, from_, to, callback, row):
         tk.Label(parent, text=text, bg=PANEL, fg=INK, font=("Segoe UI", 10)).grid(row=row, column=0, sticky="w", pady=(8, 0))

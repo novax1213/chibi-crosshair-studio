@@ -7,8 +7,8 @@ GitHub deposu: https://github.com/novax1213/chibi-crosshair-studio
 ## Kullanıcı için
 
 1. GitHub Releases bölümündeki `Chibi-Crosshair-Studio-Windows.zip` dosyasını indirin; içindeki iki EXE'yi **aynı klasöre** çıkarın.
-2. Ana uygulamada **Yeni simgeleri indir** düğmesine basın. Güncelleyici doğrudan da açılabilir.
-3. Güncelleyici açılınca paketleri otomatik yükler. **Paketler** listesinden bir paket seçip **Paketi indir ve uygula** düğmesine basın. Böylece paketteki tüm imleçler indirilip uygulanır.
+2. Ana uygulamadaki üçüncü **Paketler** sekmesini açın. GitHub'daki paketler otomatik yüklenir; bir paket seçince simge adları ve önizleme görünür.
+3. **Paketi indir ve uygula** düğmesiyle paketteki tüm imleçleri indirin ve uygulayın. **Paketleri yenile** ile sonradan eklenen paketleri görebilirsiniz. Ayrı güncelleyici, yeni simge yüklemek veya tek bir imleç uygulamak için de açılabilir.
 4. Tek bir poz kullanmak isterseniz paketteki simgeyi ve Windows imleç türünü seçip **İndir ve imlece uygula** düğmesine basın. İsterseniz başka bir açık depo veya doğrudan HTTPS `icons.json` adresi de girebilirsiniz.
 5. Daha önce seçilmiş bir resmin GitHub'da yeni sürümü varsa **Yüklü simgeleri güncelle** düğmesi onu indirip tekrar uygular.
 
