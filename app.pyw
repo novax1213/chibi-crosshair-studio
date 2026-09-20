@@ -112,7 +112,8 @@ class Studio:
         self.package_list = tk.Listbox(left, width=21, height=17, font=("Segoe UI", 10),
                                        bg="#302b37", fg=INK, selectbackground=PINK,
                                        selectforeground="#1f141c", relief="flat", bd=0,
-                                       highlightthickness=0, activestyle="none")
+                                       highlightthickness=0, activestyle="none",
+                                       exportselection=False)
         self.package_list.pack(fill="y", pady=(12, 10))
         self.package_list.bind("<<ListboxSelect>>", self.choose_package)
         button(left, "Paketleri yenile", self.refresh_packages).pack(fill="x")
@@ -124,7 +125,8 @@ class Studio:
         self.package_icon_list = tk.Listbox(middle, width=20, height=17, font=("Segoe UI", 10),
                                             bg="#302b37", fg=INK, selectbackground=PINK,
                                             selectforeground="#1f141c", relief="flat", bd=0,
-                                            highlightthickness=0, activestyle="none")
+                                            highlightthickness=0, activestyle="none",
+                                            exportselection=False)
         self.package_icon_list.pack(fill="y", pady=(12, 0))
         self.package_icon_list.bind("<<ListboxSelect>>", self.choose_package_icon)
 
