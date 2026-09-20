@@ -18,12 +18,13 @@ ICON_SELECTIONS_PATH = APP_DIR / "icon_selections.json"
 DOWNLOADED_ICONS_DIR = APP_DIR / "icons"
 RUN_NAME = "ChibiCrosshairStudio"
 DEFAULTS = {
-    "size": 120, "hotspot_x": 10, "hotspot_y": 10, "image_scale": 100,
+    "size": 64, "hotspot_x": 10, "hotspot_y": 10, "image_scale": 80,
     "crosshair_color": "#ff5b83", "crosshair_length": 16,
     "crosshair_gap": 6, "crosshair_thickness": 3,
     "crosshair_opacity": 90, "crosshair_dot": True,
     "crosshair_offset_x": 0, "crosshair_offset_y": 0,
     "overlay_enabled": False, "start_with_windows": True,
+    "applied_roles": [],
 }
 
 
@@ -48,13 +49,17 @@ def icon_path(name):
 
 def load_settings():
     settings = dict(DEFAULTS)
+    data = {}
     try:
         data = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
-        settings.update({key: value for key, value in data.items() if key in settings})
+        if isinstance(data, dict):
+            settings.update({key: value for key, value in data.items() if key in settings})
+        else:
+            data = {}
     except (OSError, ValueError, TypeError):
         pass
     legacy = {key: int(settings[key]) for key in ("size", "hotspot_x", "hotspot_y", "image_scale")}
-    saved = settings.get("cursor_settings")
+    saved = data.get("cursor_settings") if isinstance(data, dict) else None
     if not isinstance(saved, dict):
         saved = {}
     settings["cursor_settings"] = {
@@ -62,6 +67,22 @@ def load_settings():
         if isinstance(saved.get(name), dict) else dict(legacy)
         for name in NAMES
     }
+    if "applied_roles" not in data:
+        # Older versions applied every default 120px cursor at login. Only roles
+        # whose per-role settings differ from those defaults were deliberately tuned.
+        defaults_before_migration = {"size": 120, "image_scale": 100,
+                                     "hotspot_x": int(data.get("hotspot_x", 10)),
+                                     "hotspot_y": int(data.get("hotspot_y", 10))}
+        settings["applied_roles"] = [name for name in NAMES
+                                     if settings["cursor_settings"][name] != defaults_before_migration]
+        for name in NAMES:
+            config = settings["cursor_settings"][name]
+            if config == defaults_before_migration:
+                config["size"] = 64
+                config["image_scale"] = 80
+    else:
+        roles = settings["applied_roles"]
+        settings["applied_roles"] = [name for name in NAMES if isinstance(roles, list) and name in roles]
     return settings
 
 
@@ -137,7 +158,15 @@ def apply_cursor(name, cursor_settings):
 
 
 def apply_cursors(settings):
-    return {name: apply_cursor(name, settings["cursor_settings"][name]) for name in NAMES}
+    roles = set(settings.get("applied_roles", []))
+    try:
+        selections = json.loads(ICON_SELECTIONS_PATH.read_text(encoding="utf-8"))
+        if isinstance(selections, dict):
+            roles.update(name for name in selections if name in NAMES)
+    except (OSError, ValueError):
+        pass
+    return {name: apply_cursor(name, settings["cursor_settings"][name])
+            for name in NAMES if name in roles}
 
 
 def set_startup(enabled):

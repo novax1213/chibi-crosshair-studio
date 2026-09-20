@@ -233,6 +233,9 @@ class Studio:
             config = dict(self.cursor_drafts[name])
             apply_cursor(name, config)
             self.committed_cursor_settings[name] = config
+            roles = set(self.settings.get("applied_roles", []))
+            roles.add(name)
+            self.settings["applied_roles"] = [role for role in NAMES if role in roles]
             self.save()
             self.status.set(f"Yalnızca {name} imleci uygulandı · {config['size']} piksel · resim %{config['image_scale']}")
         except Exception as error:
