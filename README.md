@@ -16,7 +16,7 @@ GitHub deposu: https://github.com/novax1213/chibi-crosshair-studio
 
 ## GitHub'a simge ekleme
 
-`Chibi Simge Güncelleyici.exe` içinde **GitHub'a simge yükle** düğmesine basın. PNG resimlerinin olduğu klasörü sürükleyip bırakın veya **Klasör seç** ile gösterin. Ekranda 17 Windows imlecinin adı (`Normal.png`, `Help.png`, `Busy.png` vb.), bulunan dosyalar ve önizleme görünür. Paket adını kontrol edip **Paketi GitHub'a yükle** düğmesine basın. Uygulama yalnızca değişen resimleri `packs/<paket-adı>/` klasörüne gönderir ve `icons.json` kataloğunu yeniler. Kullanıcılar yeni paketi Güncelleyici içindeki **Paketler** listesinden indirir.
+Depo sahibi GitHub hesabıyla giriş yapılan bilgisayarda ana uygulamanın **Paketler → Yeni paket ekle** düğmesine basın. PNG resimlerinin olduğu klasörü sürükleyip bırakın veya **Klasör seç** ile gösterin. Ekranda 17 Windows imlecinin adı (`Normal.png`, `Help.png`, `Busy.png` vb.), bulunan dosyalar ve önizleme görünür. Paket adını kontrol edip **Paketi GitHub'a yükle** düğmesine basın. Uygulama yalnızca değişen resimleri `packs/<paket-adı>/` klasörüne gönderir ve `icons.json` kataloğunu yeniler. Kullanıcılar yeni paketi **Paketler** listesinden indirir. Yayınlama düğmeleri diğer hesaplarda görünmez; GitHub yazma yetkisi ayrıca gereklidir.
 
 Yükleme için Git for Windows ve bu depoya yazma yetkisi gerekir. GitHub kimlik doğrulaması bilgisayarda Git için kurulmuş olmalıdır. Program güncel depoyu geçici klasöre otomatik indirir; proje klasörü seçmeniz gerekmez. Dosyaları indiren kullanıcıların Git kurmasına veya yazma yetkisi almasına gerek yoktur.
 

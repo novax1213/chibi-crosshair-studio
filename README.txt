@@ -17,7 +17,9 @@ PAKETLER
 - "Paketi indir ve uygula" ile paketteki imleçleri Windows'a uygulayın.
 - Sonradan eklenen paketleri görmek için "Paketleri yenile"ye basın.
 - Ayrı güncelleyiciyle tek simge uygulayabilir veya yeni paket yayınlayabilirsiniz.
-- Kendi PNG'lerinizi yayınlamak için "GitHub'a simge yükle"ye basın. Resim
+- Depo sahibinin GitHub hesabı doğrulanırsa "Yeni paket ekle" düğmesi burada görünür.
+- Diğer kullanıcılar yeni paket yayınlama düğmelerini görmez.
+- Kendi PNG'lerinizi yayınlamak için "Yeni paket ekle"ye basın. Resim
   klasörünü sürükleyip bırakın veya "Klasör seç" ile gösterin. Paket adını
   yazıp "Paketi GitHub'a yükle"ye basın. Bunun için Git for Windows ve
   GitHub deposuna yazma yetkisi gerekir.

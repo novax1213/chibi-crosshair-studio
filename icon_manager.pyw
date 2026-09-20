@@ -1,6 +1,7 @@
 """Standalone GitHub icon catalog manager for Chibi Crosshair Studio."""
 
 import json
+import sys
 import threading
 import tkinter as tk
 from queue import Empty, Queue
@@ -13,6 +14,7 @@ from cursor_core import APP_DIR, DOWNLOADED_ICONS_DIR, NAMES
 from icon_catalog import (download_icon, fetch_catalog, install_icon, install_package,
                           load_selections, update_installed)
 from icon_publisher_ui import PublisherDialog
+from owner_access import is_repository_owner
 
 BG = "#17151d"
 PANEL = "#24212d"
@@ -37,6 +39,7 @@ class IconManager:
         self.photo = None
         self.preview_token = 0
         self.busy = False
+        self.owner_verified = False
         self.address = tk.StringVar(value=DEFAULT_REPOSITORY)
         self.branch = tk.StringVar(value="main")
         self.role = tk.StringVar(value=NAMES[0])
@@ -46,6 +49,8 @@ class IconManager:
         self._build()
         self.root.after(100, self._poll)
         self.root.after(250, self.check)
+        threading.Thread(target=lambda: self.events.put(("owner", True, is_repository_owner())),
+                         daemon=True).start()
 
     def _load_config(self):
         try:
@@ -72,7 +77,7 @@ class IconManager:
         header.pack(fill="x", padx=24, pady=(18, 2))
         tk.Label(header, text="Chibi Simge Güncelleyici", bg=BG, fg=INK,
                  font=("Segoe UI", 20, "bold")).pack(side="left")
-        self._button(header, "GitHub'a simge yükle", self.open_publisher).pack(side="right")
+        self.publisher_button = self._button(header, "GitHub'a simge yükle", self.open_publisher)
         tk.Label(self.root, text="Paket seçip bütün imleçleri indir veya tek bir simgeyi uygula.",
                  bg=BG, fg=MUTED, font=("Segoe UI", 10)).pack(anchor="w", padx=24)
 
@@ -159,6 +164,13 @@ class IconManager:
         try:
             while True:
                 operation, success, result = self.events.get_nowait()
+                if operation == "owner":
+                    self.owner_verified = result
+                    if result:
+                        self.publisher_button.pack(side="right")
+                        if "--publish" in sys.argv:
+                            self.open_publisher()
+                    continue
                 if operation == "preview":
                     token, icon_id, value = result
                     current = self._current()
@@ -289,7 +301,8 @@ class IconManager:
         self._run("refresh", lambda: update_installed(self.icons))
 
     def open_publisher(self):
-        PublisherDialog(self.root)
+        if self.owner_verified:
+            PublisherDialog(self.root)
 
 
 if __name__ == "__main__":

@@ -10,6 +10,7 @@ from tkinter import colorchooser, messagebox
 from PIL import Image, ImageTk
 from cursor_core import NAMES, apply_cursor, apply_cursors, load_settings, make_canvas, save_settings, set_startup
 from icon_catalog import download_icon, fetch_catalog, install_package, load_selections
+from owner_access import is_repository_owner
 from overlay_win32 import CrosshairOverlay
 
 BG = "#17151d"
@@ -64,6 +65,7 @@ class Studio:
         self.package_preview_token = 0
         self.package_busy = False
         self.packages_loaded = False
+        self.owner_check_started = False
         self.build()
         self.update_cursor_preview()
         self.update_crosshair()
@@ -103,6 +105,10 @@ class Studio:
          "packages": self.packages_tab}[name].tkraise()
         if name == "packages" and not self.packages_loaded and not self.package_busy:
             self.refresh_packages()
+        if name == "packages" and not self.owner_check_started:
+            self.owner_check_started = True
+            threading.Thread(target=lambda: self.package_events.put(("owner", is_repository_owner())),
+                             daemon=True).start()
 
     def build_packages_tab(self):
         left = tk.Frame(self.packages_tab, bg=PANEL)
@@ -117,6 +123,7 @@ class Studio:
         self.package_list.pack(fill="y", pady=(12, 10))
         self.package_list.bind("<<ListboxSelect>>", self.choose_package)
         button(left, "Paketleri yenile", self.refresh_packages).pack(fill="x")
+        self.add_package_button = button(left, "Yeni paket ekle", lambda: self.open_icon_manager(True))
 
         middle = tk.Frame(self.packages_tab, bg=PANEL)
         middle.pack(side="left", fill="y", padx=(0, 12), pady=20)
@@ -226,7 +233,10 @@ class Studio:
             while True:
                 event = self.package_events.get_nowait()
                 kind = event[0]
-                if kind == "catalog":
+                if kind == "owner":
+                    if event[1]:
+                        self.add_package_button.pack(fill="x", pady=(8, 0))
+                elif kind == "catalog":
                     groups = {}
                     for icon in event[1]:
                         groups.setdefault(icon["package"], []).append(icon)
@@ -383,11 +393,13 @@ class Studio:
         if event.widget == self.root and hasattr(self, "cursor_preview"):
             self.update_cursor_preview()
 
-    def open_icon_manager(self):
+    def open_icon_manager(self, publish=False):
         if getattr(sys, "frozen", False):
             command = [str(Path(sys.executable).with_name("Chibi Simge Güncelleyici.exe"))]
         else:
             command = [sys.executable, str(Path(__file__).with_name("icon_manager.pyw"))]
+        if publish:
+            command.append("--publish")
         try:
             subprocess.Popen(command, cwd=str(Path(command[-1]).parent))
         except OSError as error:
