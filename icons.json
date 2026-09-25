@@ -155,6 +155,159 @@
       "package_name": "Temel Paket"
     },
     {
+      "id": "kirmizi-gotik__Alternate",
+      "name": "Alternate",
+      "file": "packs/kirmizi-gotik/Alternate.png",
+      "sha256": "3ed2e583a600b63694c81a86767346c983f4e71430623036cfb382f239a7bda9",
+      "role": "Alternate",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Busy",
+      "name": "Busy",
+      "file": "packs/kirmizi-gotik/Busy.png",
+      "sha256": "85728e01e026832a8cd7cbd94e4cdb87f9e9d44c0427859f46ddd8d536d5480b",
+      "role": "Busy",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Diagonal",
+      "name": "Diagonal",
+      "file": "packs/kirmizi-gotik/Diagonal.png",
+      "sha256": "3d7c2ef1e97dd31eac22284047298f3efdead9dab071f790ae1726f02417656e",
+      "role": "Diagonal",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Diagonal2",
+      "name": "Diagonal2",
+      "file": "packs/kirmizi-gotik/Diagonal2.png",
+      "sha256": "9d8b8c17847923bd4ca59d6f54e7aed67dd13e43ba6d62d4c40f2ca6fa35714d",
+      "role": "Diagonal2",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Handwriting",
+      "name": "Handwriting",
+      "file": "packs/kirmizi-gotik/Handwriting.png",
+      "sha256": "d4bf4678fb773826e3de7fff2c1135d1e6867eb5e5de74435a8345b8555796be",
+      "role": "Handwriting",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Help",
+      "name": "Help",
+      "file": "packs/kirmizi-gotik/Help.png",
+      "sha256": "34deb5996cbd435278136372dbc6d84b49c198f16ae31b66d7dcedd06c279e4f",
+      "role": "Help",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Horizontal",
+      "name": "Horizontal",
+      "file": "packs/kirmizi-gotik/Horizontal.png",
+      "sha256": "be78b2e8b90c1064facc3cd599a94df57415ad9af088df2d7148410fc90e26ae",
+      "role": "Horizontal",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Link",
+      "name": "Link",
+      "file": "packs/kirmizi-gotik/Link.png",
+      "sha256": "96d0e94bb21b677f91fbf26b61c094bcc428301766d234d89f5fd018226e306a",
+      "role": "Link",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Location",
+      "name": "Location",
+      "file": "packs/kirmizi-gotik/Location.png",
+      "sha256": "eef0d6bde7b20867396c77bcf7538ca268f41cc84263f856b8d2be40dafaaf4b",
+      "role": "Location",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Move",
+      "name": "Move",
+      "file": "packs/kirmizi-gotik/Move.png",
+      "sha256": "d7d52cdc5307003133844ffdc79a2f4b6fa1aad0286bc9bc46cd2950143ccb14",
+      "role": "Move",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Normal",
+      "name": "Normal",
+      "file": "packs/kirmizi-gotik/Normal.png",
+      "sha256": "3ed2e583a600b63694c81a86767346c983f4e71430623036cfb382f239a7bda9",
+      "role": "Normal",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Person",
+      "name": "Person",
+      "file": "packs/kirmizi-gotik/Person.png",
+      "sha256": "148e963753392e21648e0eea2d6cfffda786d89bd3cbfa8971c9e0f9cd6629eb",
+      "role": "Person",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Precision",
+      "name": "Precision",
+      "file": "packs/kirmizi-gotik/Precision.png",
+      "sha256": "19410c217948bb959199301160e4fe951b7d60af6432a004784359dd261ae2b6",
+      "role": "Precision",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Text",
+      "name": "Text",
+      "file": "packs/kirmizi-gotik/Text.png",
+      "sha256": "7a12df9e9ac29c77672fa996349375bfeb107b97bce33e494d57c832113c9a3f",
+      "role": "Text",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Unavailable",
+      "name": "Unavailable",
+      "file": "packs/kirmizi-gotik/Unavailable.png",
+      "sha256": "6be595b5c986aa12a3e1d24a4254eee0a9d3750426a25ce703e0e1d6aa88f8cc",
+      "role": "Unavailable",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Vertical",
+      "name": "Vertical",
+      "file": "packs/kirmizi-gotik/Vertical.png",
+      "sha256": "e3e8a9ee3c71621a56414272849177e7efc1914bf6c3a0e320e3b62092bf8027",
+      "role": "Vertical",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
+      "id": "kirmizi-gotik__Working",
+      "name": "Working",
+      "file": "packs/kirmizi-gotik/Working.png",
+      "sha256": "d1968da931e6d6960d38bf9ecefecdfda1b205896d7b3c868bbc33341b52c95b",
+      "role": "Working",
+      "package": "kirmizi-gotik",
+      "package_name": "Kırmızı Gotik"
+    },
+    {
       "id": "lila-cicek__Alternate",
       "name": "Alternate",
       "file": "packs/lila-cicek/Alternate.png",
