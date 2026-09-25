@@ -158,7 +158,7 @@
       "id": "kirmizi-gotik__Alternate",
       "name": "Alternate",
       "file": "packs/kirmizi-gotik/Alternate.png",
-      "sha256": "3ed2e583a600b63694c81a86767346c983f4e71430623036cfb382f239a7bda9",
+      "sha256": "c9569038dde8dfadf695bd272c601e0dbce742568e10450d6eb1dad5b7e6c53c",
       "role": "Alternate",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -167,7 +167,7 @@
       "id": "kirmizi-gotik__Busy",
       "name": "Busy",
       "file": "packs/kirmizi-gotik/Busy.png",
-      "sha256": "85728e01e026832a8cd7cbd94e4cdb87f9e9d44c0427859f46ddd8d536d5480b",
+      "sha256": "c5719243d9a571215f68eabcc1f4de41d0951dd852d7dbcf2ef41f2535a18d22",
       "role": "Busy",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -176,7 +176,7 @@
       "id": "kirmizi-gotik__Diagonal",
       "name": "Diagonal",
       "file": "packs/kirmizi-gotik/Diagonal.png",
-      "sha256": "3d7c2ef1e97dd31eac22284047298f3efdead9dab071f790ae1726f02417656e",
+      "sha256": "7bdfde5057f1621b250c6b3e1e2bc02b1af7d6e9d82d32417c3809245e6939e7",
       "role": "Diagonal",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -185,7 +185,7 @@
       "id": "kirmizi-gotik__Diagonal2",
       "name": "Diagonal2",
       "file": "packs/kirmizi-gotik/Diagonal2.png",
-      "sha256": "9d8b8c17847923bd4ca59d6f54e7aed67dd13e43ba6d62d4c40f2ca6fa35714d",
+      "sha256": "b7aeb112280edabe040f1d4c909210d72afd7d35d5a06ef19b5d098adf4d9648",
       "role": "Diagonal2",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -194,7 +194,7 @@
       "id": "kirmizi-gotik__Handwriting",
       "name": "Handwriting",
       "file": "packs/kirmizi-gotik/Handwriting.png",
-      "sha256": "d4bf4678fb773826e3de7fff2c1135d1e6867eb5e5de74435a8345b8555796be",
+      "sha256": "e9605986e17bd04a1aee64d4191b3cff58fb0e334a927b207f0225cd9af763b3",
       "role": "Handwriting",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -203,7 +203,7 @@
       "id": "kirmizi-gotik__Help",
       "name": "Help",
       "file": "packs/kirmizi-gotik/Help.png",
-      "sha256": "34deb5996cbd435278136372dbc6d84b49c198f16ae31b66d7dcedd06c279e4f",
+      "sha256": "940896fa9e61ef09a1114679a60f2ce5714ba6823cdba20ea14ff3a7c6c45501",
       "role": "Help",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -212,7 +212,7 @@
       "id": "kirmizi-gotik__Horizontal",
       "name": "Horizontal",
       "file": "packs/kirmizi-gotik/Horizontal.png",
-      "sha256": "be78b2e8b90c1064facc3cd599a94df57415ad9af088df2d7148410fc90e26ae",
+      "sha256": "92f4c2af991fe0369c72c31b99fb8d5460775a55a49e84a6db5a1fc8939ed7a9",
       "role": "Horizontal",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -221,7 +221,7 @@
       "id": "kirmizi-gotik__Link",
       "name": "Link",
       "file": "packs/kirmizi-gotik/Link.png",
-      "sha256": "96d0e94bb21b677f91fbf26b61c094bcc428301766d234d89f5fd018226e306a",
+      "sha256": "aac5e1d35065a64293cd551acabe15b5696729062b8a96df8c3aee9a99db70cf",
       "role": "Link",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -230,7 +230,7 @@
       "id": "kirmizi-gotik__Location",
       "name": "Location",
       "file": "packs/kirmizi-gotik/Location.png",
-      "sha256": "eef0d6bde7b20867396c77bcf7538ca268f41cc84263f856b8d2be40dafaaf4b",
+      "sha256": "48685bb1a2c3f5a4747a6a5e3bef81a93e990fe67f7b9810590c8cb4289473ef",
       "role": "Location",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -239,7 +239,7 @@
       "id": "kirmizi-gotik__Move",
       "name": "Move",
       "file": "packs/kirmizi-gotik/Move.png",
-      "sha256": "d7d52cdc5307003133844ffdc79a2f4b6fa1aad0286bc9bc46cd2950143ccb14",
+      "sha256": "1d2266e846e46cf765195bab39dea38dc96e46467b9e7c3df182f7a325a759f8",
       "role": "Move",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -248,7 +248,7 @@
       "id": "kirmizi-gotik__Normal",
       "name": "Normal",
       "file": "packs/kirmizi-gotik/Normal.png",
-      "sha256": "3ed2e583a600b63694c81a86767346c983f4e71430623036cfb382f239a7bda9",
+      "sha256": "c9569038dde8dfadf695bd272c601e0dbce742568e10450d6eb1dad5b7e6c53c",
       "role": "Normal",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -257,7 +257,7 @@
       "id": "kirmizi-gotik__Person",
       "name": "Person",
       "file": "packs/kirmizi-gotik/Person.png",
-      "sha256": "148e963753392e21648e0eea2d6cfffda786d89bd3cbfa8971c9e0f9cd6629eb",
+      "sha256": "61bb7edf4c29153071c06fe1977423e02686049d296ed48f35d39c94bb3ecdda",
       "role": "Person",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -266,7 +266,7 @@
       "id": "kirmizi-gotik__Precision",
       "name": "Precision",
       "file": "packs/kirmizi-gotik/Precision.png",
-      "sha256": "19410c217948bb959199301160e4fe951b7d60af6432a004784359dd261ae2b6",
+      "sha256": "bc36b7bdcdad6aac7bb19b937988c7e33e4ed8300512444c4e90e4ebfac41a74",
       "role": "Precision",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -275,7 +275,7 @@
       "id": "kirmizi-gotik__Text",
       "name": "Text",
       "file": "packs/kirmizi-gotik/Text.png",
-      "sha256": "7a12df9e9ac29c77672fa996349375bfeb107b97bce33e494d57c832113c9a3f",
+      "sha256": "64c31ced69213f5fe6635625c9cfb2ed681f109cfe6f0857bc11d607326d272f",
       "role": "Text",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -284,7 +284,7 @@
       "id": "kirmizi-gotik__Unavailable",
       "name": "Unavailable",
       "file": "packs/kirmizi-gotik/Unavailable.png",
-      "sha256": "6be595b5c986aa12a3e1d24a4254eee0a9d3750426a25ce703e0e1d6aa88f8cc",
+      "sha256": "58cfb7ca05894ea24dc76c6cf25263dbc16d264cb4010fa795e3be93c944961e",
       "role": "Unavailable",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -293,7 +293,7 @@
       "id": "kirmizi-gotik__Vertical",
       "name": "Vertical",
       "file": "packs/kirmizi-gotik/Vertical.png",
-      "sha256": "e3e8a9ee3c71621a56414272849177e7efc1914bf6c3a0e320e3b62092bf8027",
+      "sha256": "f9a1043a8c2d740165bec224203becb5568e67e9fdd10c944578c66a21ef4cfb",
       "role": "Vertical",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
@@ -302,7 +302,7 @@
       "id": "kirmizi-gotik__Working",
       "name": "Working",
       "file": "packs/kirmizi-gotik/Working.png",
-      "sha256": "d1968da931e6d6960d38bf9ecefecdfda1b205896d7b3c868bbc33341b52c95b",
+      "sha256": "bc77b36548401fe3938528a5d3883c27c4a603b3c72281321cfbbcea74ba2260",
       "role": "Working",
       "package": "kirmizi-gotik",
       "package_name": "Kırmızı Gotik"
